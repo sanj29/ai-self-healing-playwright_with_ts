@@ -1,2 +1,5 @@
-// DOM snapshot utilities
-export function domSnapshot() {}
+import { Page } from "@playwright/test";
+
+export async function captureDOM(page: Page): Promise<string> {
+  return await page.content();
+}

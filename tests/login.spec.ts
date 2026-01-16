@@ -1,6 +1,19 @@
-// Login test specification
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
+import { executeWithHealing } from "../core/selfHealingExecutor";
 
-test('login test', async ({ page }) => {
-  // Test implementation
+test("Valid user logs in", async ({ page }) => {
+  await page.goto("/login");
+
+  await page.fill('input[name="username"]', 'standard_user');
+  await page.fill('input[name="password"]', 'secret_sauce');
+
+  await executeWithHealing(
+    page,
+    async () => {
+      await page.click('button[type="submit"]');
+    },
+    'button[type="submit"]'
+  );
+
+  await expect(page).toHaveURL("/dashboard");
 });
